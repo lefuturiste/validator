@@ -274,8 +274,11 @@ class Validator
 
 	private function getValue($key)
 	{
-		if (array_key_exists($key, $this->params))
-			return $this->params[$key];
+		if (!empty($this->params)) {
+
+			if (array_key_exists($key, $this->params))
+				return $this->params[$key];
+		}
 
 		return NULL;
 	}
