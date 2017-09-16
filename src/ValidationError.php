@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator;
+namespace Validator;
 
 class ValidationError
 {
