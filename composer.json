@@ -1,0 +1,18 @@
+{
+    "name": "lefuturiste/validator",
+    "description": "A simple validator helper for PS7 requests",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lefuturiste",
+            "email": "contact@lefuturiste.fr"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Validator\\": "src"
+        }
+    }
+}
