@@ -16,7 +16,6 @@ class Validator
 
 	public function __construct($params)
 	{
-
 		$this->params = $params;
 	}
 
@@ -255,9 +254,12 @@ class Validator
 	 */
 	public function getErrors()
 	{
+		//generate all messages
 		$errors = [];
-		foreach ($this->errors as $key => $error)
-			array_push($errors, (string)$error);
+		foreach ($this->errors as $key => $error) {
+			$message = new ValidationError($error['key'], $error['rule'], $error['attributes']);
+			array_push($errors, (string)$message);
+		}
 
 		return $errors;
 	}
@@ -294,7 +296,11 @@ class Validator
 	 */
 	private function addError($key, $rule, $attributes = [])
 	{
-		$this->errors[$key] = new ValidationError($key, $rule, $attributes);
+		$this->errors[$key] = [
+			'key' => $key,
+			'rule' => $rule,
+			'attributes' => $attributes
+		];
 	}
 
 }
