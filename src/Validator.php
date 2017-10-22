@@ -273,8 +273,8 @@ class Validator
 	{
 		return empty($this->errors);
 	}
-
-	private function getValue($key)
+	
+	public function getValue($key)
 	{
 		if (!empty($this->params)) {
 
