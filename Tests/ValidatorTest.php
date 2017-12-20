@@ -11,7 +11,7 @@ class ValidatorTest extends TestCase
 
 	private function makeValidator(array $params)
 	{
-		ValidationLanguage::setLang('en');
+		ValidationLanguage::setLang('fr');
 		return new Validator($params);
 	}
 

@@ -11,5 +11,7 @@ return [
 	'email' => "Le champs %s doit être un email valide",
 	'integer' => "Le champs %s doit être un nombre valide",
 	'url' => "Le champs %s doit être une url valide",
-	'match' => "Le champs %s doit être égal à %s"
+	'match' => "Le champs %s doit être égal à %s",
+	'between' => "Le champs %s doit être compris entre %d et %d",
+	'between_strict' => "The field %s doit être compris entre %d and %d"
 ];
