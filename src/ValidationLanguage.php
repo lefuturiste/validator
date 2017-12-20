@@ -24,6 +24,7 @@ class ValidationLanguage
 		$messages = [
 			'fr' => include('langs/fr.php'),
 			'en' => include('langs/en.php'),
+			'es' => include('langs/es.php')
 		];
 
 		return $messages[self::getLang()];
