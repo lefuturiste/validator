@@ -81,4 +81,35 @@ class ValidatorTest extends TestCase
 		$this->assertCount(1, $this->makeValidator(['date' => '2012-21-12'])->dateTime('date')->getErrors());
 		$this->assertCount(1, $this->makeValidator(['date' => '2013-02-29 11:12:13'])->dateTime('date')->getErrors());
 	}
+
+	public function testEmail()
+	{
+		$this->assertCount(0, $this->makeValidator(['email' => 'mail@example.com'])->email('email')->getErrors());
+	}
+
+	public function testEmailFail()
+	{
+		$this->assertCount(1, $this->makeValidator(['email' => 'mailexample.com'])->email('email')->getErrors());
+		$this->assertCount(1, $this->makeValidator(['email' => 'mailom'])->email('email')->getErrors());
+	}
+
+	public function testBetween()
+	{
+		$this->assertCount(0, $this->makeValidator(['int' => 23])->between('int', '22', '24')->getErrors());
+		$this->assertCount(0, $this->makeValidator(['int' => 2])->between('int', '1', '3')->getErrors());
+		$this->assertCount(0, $this->makeValidator(['int' => 1])->between('int', '1', '2', false)->getErrors());
+		$this->assertCount(0, $this->makeValidator(['int' => 1])->between('int', '1', '1', false)->getErrors());
+		$this->assertCount(0, $this->makeValidator(['int' => 15])->between('int', '15', '16', false)->getErrors());
+	}
+
+	public function testBetweenFail()
+	{
+		$this->assertCount(1, $this->makeValidator(['int' => 230])->between('int', '22', '24')->getErrors());
+		$this->assertCount(1, $this->makeValidator(['int' => 20])->between('int', '1', '3')->getErrors());
+		$this->assertCount(1, $this->makeValidator(['int' => 40])->between('int', '1', '2', false)->getErrors());
+		$this->assertCount(1, $this->makeValidator(['int' => 10])->between('int', '1', '1', false)->getErrors());
+		$this->assertCount(1, $this->makeValidator(['int' => 50])->between('int', '15', '16', false)->getErrors());
+	}
+
+
 }

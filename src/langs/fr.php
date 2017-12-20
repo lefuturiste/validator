@@ -1,15 +1,17 @@
 <?php
 return [
-	'required' => "Le champs %s est requis",
-	'empty' => "Le champs %s ne peut être vide",
-	'slug' => "Le champs %s n'est pas un slug valid",
-	'minLength' => "Le champs %s doit contenir plus de %d caractères",
-	'maxLength' => "Le champs %s doit contenir moins de %d caractères",
-	'betweenLength' => "Le champs %s doit contenir entre %d et %d caractères",
-	'datetime' => "Le champs %s doit être une date valide (%s)",
-	'notEqual' => "Le champs %s doit être égale au champs %s",
-	'email' => "Le champs %s doit être un email valide",
-	'integer' => "Le champs %s doit être un nombre valide",
-	'url' => "Le champs %s doit être une url valide",
-	'match' => "Le champs %s doit être égale à %s"
+	'required' => 'The field %s is required',
+	'empty' => 'The field %s cannot be empty',
+	'slug' => 'The field %s is not a valid slug',
+	'minLength' => 'The field %s must contain more than %d characters',
+	'maxLength' => 'The field %s must contain less than %d characters',
+	'betweenLength' => 'The field %s must contain between %d and %d characters',
+	'datetime' => 'The field %s must be a valid date (%s)',
+	'notEqual' => 'The field %s must be equal to %s',
+	'email' => 'The field %s must be a valid email address',
+	'integer' => 'The field %s must be a valid number',
+	'url' => 'The field %s must be a valid URL',
+	'match' => 'The field %s must be equal to %s',
+	'between' => "The field %s must be between %d and %d",
+	'between_strict' => "The field %s must be strict between %d and %d"
 ];

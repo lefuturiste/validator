@@ -223,9 +223,7 @@ class Validator
 		//on ne traite pas le champs si il est vide
 		if (!empty($value)) {
 			if (!filter_var($value, FILTER_VALIDATE_EMAIL))
-				$this->addError($key, 'email', [
-					$key
-				]);
+				$this->addError($key, 'email');
 		}
 
 		return $this;
@@ -243,6 +241,40 @@ class Validator
 		$pattern = '/^([0-9]+-?)+$/';
 		if (is_null($value) || !preg_match($pattern, $this->params[$key]))
 			$this->addError($key, 'integer');
+
+		return $this;
+	}
+
+	/**
+	 * Verifie si une clé de type integer est comprise entre un minimum et un maximum
+	 *
+	 * @param $key
+	 * @param $min
+	 * @param $max
+	 * @param bool $strict
+	 * @return $this
+	 */
+	public function between($key, int $min, int $max, $strict = false)
+	{
+		$value = $this->getValue($key);
+		//on ne traite pas le champs si il est vide
+		if (!empty($value) && is_int($value)) {
+			if ($strict == true){
+				if ($value <= $min || $value >= $max){
+					$this->addError($key, 'between_strict', [
+						$min,
+						$max
+					]);
+				}
+			}else{
+				if ($value < $min || $value > $max){
+					$this->addError($key, 'between', [
+						$min,
+						$max
+					]);
+				}
+			}
+		}
 
 		return $this;
 	}
