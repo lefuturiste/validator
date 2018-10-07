@@ -9,7 +9,9 @@
             "email": "contact@lefuturiste.fr"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-mbstring": "*"
+    },
     "autoload": {
         "psr-4": {
             "Validator\\": "src"

@@ -9,16 +9,14 @@ class ValidationError
 
 	private $attributes;
 
-	public function __construct($key, $rule, $attributes = [])
+	public function __construct(string $key, string $rule, $attributes = [])
 	{
 		$this->key = $key;
 		$this->rule = $rule;
 		$this->attributes = $attributes;
-
-		//chose the language
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		$params = array_merge([
 			ValidationLanguage::getMessages()[$this->rule],

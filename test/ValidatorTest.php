@@ -9,7 +9,7 @@ use Validator\Validator;
 class ValidatorTest extends TestCase
 {
 
-	private function makeValidator(array $params)
+	private function makeValidator(array $params): Validator
 	{
 		ValidationLanguage::setLang('fr');
 		return new Validator($params);
@@ -21,6 +21,7 @@ class ValidatorTest extends TestCase
 			->required('name', 'content')
 			->getErrors();
 		$this->assertCount(1, $errors);
+		$this->assertEquals(['Le champs content est requis'], $errors);
 	}
 
 	public function testNotEmpty()
@@ -68,6 +69,7 @@ class ValidatorTest extends TestCase
 		$errors = $this->makeValidator($params)->length('slug', 12)->getErrors();
 		$this->assertCount(1, $errors);
 		$this->assertEquals('Le champs slug doit contenir plus de 12 caractères', $errors[0]);
+		$this->assertEquals(['Le champs slug doit contenir plus de 12 caractères'], $errors);
 		$this->assertCount(1, $this->makeValidator($params)->length('slug', 3, 4)->getErrors());
 		$this->assertCount(0, $this->makeValidator($params)->length('slug', 3, 20)->getErrors());
 		$this->assertCount(0, $this->makeValidator($params)->length('slug', null, 20)->getErrors());
