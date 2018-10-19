@@ -27,7 +27,7 @@ class ValidatorTest extends TestCase
 	public function testNotEmpty()
 	{
 		$errors = $this->makeValidator(['name' => 'joe', 'content' => ''])
-			->notEmpty('content')
+			->notEmpty('content', 'hello')
 			->getErrors();
 		$this->assertCount(1, $errors);
 	}
@@ -39,6 +39,15 @@ class ValidatorTest extends TestCase
 			->getErrors();
 		$this->assertCount(0, $errors);
 	}
+
+	public function testInteger()
+    {
+        $errors = $this->makeValidator(['int' => 'joe'])
+            ->integer('int', 'random')
+            ->getErrors();
+        $this->assertCount(1, $errors);
+        $this->assertEquals('Le champs int doit être un nombre valide', $errors[0]);
+    }
 
 	public function testSlugSuccess()
 	{

@@ -46,8 +46,9 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value) || empty($value))
-                $this->addError($key, 'empty');
+            if (!is_null($value))
+                if (empty($value))
+                    $this->addError($key, 'empty');
         }
 
         return $this;
@@ -144,7 +145,7 @@ class Validator
     }
 
     /**
-     * Verify if an url field is valid
+     * Verify if an url field is valid (only http urls)
      *
      * @param $key
      * @return $this
@@ -222,15 +223,19 @@ class Validator
     /**
      * Verify if a key is a valid integer
      *
-     * @param $key
+     * @param mixed ...$keys
      * @return $this
      */
-    public function integer(string $key): self
+    public function integer(...$keys): self
     {
-        $value = $this->getValue($key);
-        $pattern = '/^([0-9]+-?)+$/';
-        if (is_null($value) || !preg_match($pattern, $this->params[$key]))
-            $this->addError($key, 'integer');
+        foreach ($keys as $key) {
+            $value = $this->getValue($key);
+            $pattern = '/^([0-9]+-?)+$/';
+
+            if (!empty($value) && !is_null($value))
+                if (!preg_match($pattern, $this->params[$key]))
+                    $this->addError($key, 'integer');
+        }
 
         return $this;
     }
@@ -250,7 +255,7 @@ class Validator
         if (!empty($value) && is_int($value)) {
             if ($strict == true) {
                 if ($value <= $min || $value >= $max) {
-                    $this->addError($key, 'between_strict', [
+                    $this->addError($key, 'betweenStrict', [
                         $min,
                         $max
                     ]);
