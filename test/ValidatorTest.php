@@ -49,6 +49,23 @@ class ValidatorTest extends TestCase
         $this->assertEquals('Le champs int doit être un nombre valide', $errors[0]);
     }
 
+    public function testArraySuccess()
+    {
+        $errors = $this->makeValidator(['foo' => ['hello' => 'world']])
+            ->array('foo', 'lol')
+            ->getErrors();
+        $this->assertCount(0, $errors);
+    }
+
+    public function testArrayError()
+    {
+        $errors = $this->makeValidator(['foo' => 'joe'])
+            ->array('foo')
+            ->getErrors();
+        $this->assertCount(1, $errors);
+        $this->assertEquals('Le champs foo doit être un tableau', $errors[0]);
+    }
+
 	public function testSlugSuccess()
 	{
 		$errors = $this->makeValidator(['slug' => 'aze-aze-azeaze34'])

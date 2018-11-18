@@ -221,6 +221,25 @@ class Validator
     }
 
     /**
+     * Verify if a key is an array
+     *
+     * @param string[] $keys
+     * @return $this
+     */
+    public function array(string ...$keys): self
+    {
+        foreach ($keys as $key) {
+            $value = $this->getValue($key);
+            if (!empty($value)) {
+                if (!is_array($value))
+                    $this->addError($key, 'array');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify if a key is a valid integer
      *
      * @param mixed ...$keys

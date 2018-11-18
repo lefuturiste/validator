@@ -13,5 +13,6 @@ return [
 	'url' => "Le champs %s doit être une url valide",
 	'match' => "Le champs %s doit être égal à %s",
 	'between' => "Le champs %s doit être compris entre %d et %d",
-	'betweenStrict' => "The field %s doit être compris entre %d and %d"
+	'betweenStrict' => "Le champs %s doit être compris entre %d and %d",
+    'array' => "Le champs %s doit être un tableau"
 ];
