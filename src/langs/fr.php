@@ -14,5 +14,6 @@ return [
 	'match' => "Le champs %s doit être égal à %s",
 	'between' => "Le champs %s doit être compris entre %d et %d",
 	'betweenStrict' => "Le champs %s doit être compris entre %d and %d",
-    'array' => "Le champs %s doit être un tableau"
+    'array' => "Le champs %s doit être un tableau",
+    'boolean' => "Le champs %s doit être un boolean"
 ];

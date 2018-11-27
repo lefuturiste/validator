@@ -260,6 +260,33 @@ class Validator
     }
 
     /**
+     * Verify if a key is a valid boolean
+     *
+     * @param mixed ...$keys
+     * @return $this
+     */
+    public function boolean(...$keys): self
+    {
+        foreach ($keys as $key) {
+            $value = $this->getValue($key);
+            if ($value !== '' && $value !== NULL)
+                if (!(
+                    ($value === false)
+                    || ($value === true)
+                    || ($value === 'false')
+                    || ($value === 'true')
+                    || ($value === 0)
+                    || ($value === 1)
+                    || ($value === '0')
+                    || ($value === '1')
+                ))
+                    $this->addError($key, 'boolean');
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify if a integer key is between a minimum and maximum value
      *
      * @param $key

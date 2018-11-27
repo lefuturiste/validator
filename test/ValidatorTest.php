@@ -66,6 +66,22 @@ class ValidatorTest extends TestCase
         $this->assertEquals('Le champs foo doit être un tableau', $errors[0]);
     }
 
+    public function testBooleanSuccess()
+    {
+        $errors = $this->makeValidator(['foo' => false, 'bar' => 0, 'example' => '0', 'second' => 'true'])
+            ->boolean('foo', 'bar', 'example', 'second')
+            ->getErrors();
+        $this->assertCount(0, $errors);
+    }
+
+    public function testBooleanError()
+    {
+        $errors = $this->makeValidator(['foo' => '_false', 'bar' => 5, 'example' => '001', 'second' => 'string'])
+            ->boolean('foo', 'bar', 'example', 'second')
+            ->getErrors();
+        $this->assertCount(4, $errors);
+    }
+
 	public function testSlugSuccess()
 	{
 		$errors = $this->makeValidator(['slug' => 'aze-aze-azeaze34'])
