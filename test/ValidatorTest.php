@@ -3,6 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Validator\ValidationError;
 use Validator\ValidationLanguage;
 use Validator\Validator;
 
@@ -155,5 +156,22 @@ class ValidatorTest extends TestCase
 		$this->assertCount(1, $this->makeValidator(['int' => 50])->between('int', '15', '16', false)->getErrors());
 	}
 
+    public function testErrorsWithKeys()
+    {
+        $validator = $this->makeValidator([]);
+        $validator->required('foo');
+        $this->assertFalse($validator->isValid());
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertArrayHasKey('foo.required', $validator->getErrors(true));
+    }
 
+    public function testErrorsWithKeysAndGlobalConfig()
+    {
+        $validator = $this->makeValidator(['foo' => '']);
+        ValidationError::withKeys();
+        $validator->notEmpty('foo');
+        $this->assertFalse($validator->isValid());
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertArrayHasKey('foo.empty', $validator->getErrors());
+    }
 }

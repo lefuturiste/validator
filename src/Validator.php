@@ -322,13 +322,21 @@ class Validator
     /**
      * Get errors
      *
+     * @param bool $withRuleKeys
      * @return ValidationError[]
      */
-    public function getErrors(): array
+    public function getErrors(bool $withRuleKeys = null): array
     {
         $errors = [];
+        if ($withRuleKeys == null) {
+            $withRuleKeys = ValidationError::getWithKeys();
+        }
         foreach ($this->errors as $error) {
-            $errors[] = $error->__toString();
+            if ($withRuleKeys) {
+                $errors[$error->getKey() . '.' . $error->getRule()] = $error->__toString();
+            } else {
+                $errors[] = $error->__toString();
+            }
         }
         return $errors;
     }
