@@ -44,3 +44,10 @@ You can get errors in a different format, with the rules:
 ```php
 $validator->getErrors(true);
 ```
+
+## Tests
+
+All the tests are in the `tests` folder. You can run tests with this command (do a composer install before).
+
+on linux/mac: `vendor/bin/phpunit tests`
+on windows: `vendor/bin/phpunit.bat tests`
