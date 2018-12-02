@@ -45,6 +45,14 @@ You can get errors in a different format, with the rules:
 $validator->getErrors(true);
 ```
 
+### I18n
+
+English, french and spanish are supported
+
+```php
+ValidationLanguage::setLang('fr'); // or `en` or `es`
+```
+
 ## Tests
 
 All the tests are in the `tests` folder. You can run tests with this command (do a composer install before).
