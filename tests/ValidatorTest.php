@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests;
-
 use PHPUnit\Framework\TestCase;
 use Validator\ValidationError;
 use Validator\ValidationLanguage;
