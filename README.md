@@ -38,3 +38,9 @@ $validator->isValid(); // TRUE|FALSE
 ```php
 $validator->getErrors();
 ```
+
+You can get errors in a different format, with the rules:
+
+```php
+$validator->getErrors(true);
+```
