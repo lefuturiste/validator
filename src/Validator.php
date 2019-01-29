@@ -363,6 +363,17 @@ class Validator
     }
 
     /**
+     * Return if true or false a given key is defined
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function exists(string $key): bool
+    {
+        return !empty($this->params) && array_key_exists($key, $this->params);
+    }
+
+    /**
      * Add an error
      *
      * @param $key

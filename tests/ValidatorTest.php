@@ -172,4 +172,14 @@ class ValidatorTest extends TestCase
         $this->assertCount(1, $validator->getErrors());
         $this->assertArrayHasKey('foo.empty', $validator->getErrors());
     }
+
+    public function testValueExists()
+    {
+        $validator = $this->makeValidator(['foo' => 'bar', 'hello' => 'world']);
+        $this->assertTrue($validator->exists('foo'));
+        $this->assertTrue($validator->exists('hello'));
+        $this->assertFalse($validator->exists('not_defined'));
+        $validator = $this->makeValidator([]);
+        $this->assertFalse($validator->exists('not_defined'));
+    }
 }
