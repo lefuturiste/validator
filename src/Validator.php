@@ -351,6 +351,12 @@ class Validator
         return empty($this->errors);
     }
 
+    /**
+     * Get the value of a given key in the init params
+     *
+     * @param string $key
+     * @return mixed|null
+     */
     public function getValue(string $key)
     {
         if (!empty($this->params)) {
