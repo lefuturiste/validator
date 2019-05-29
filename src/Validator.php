@@ -320,6 +320,23 @@ class Validator
     }
 
     /**
+     * Verify if a string match a regex pattern
+     *
+     * @param string $key
+     * @param string $pattern
+     * @return $this
+     */
+    public function patternMatch(string $key, string $pattern): self
+    {
+        if (!empty($value = $this->getValue($key))) {
+            if (is_null($value) || !preg_match($pattern, $value)) {
+                $this->addError($key, 'patternMatch');
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Get errors
      *
      * @param bool $withRuleKeys

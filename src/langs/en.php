@@ -15,5 +15,6 @@ return [
 	'between' => "The field %s must be between %d and %d",
 	'betweenStrict' => "The field %s must be strict between %d and %d",
     'array' => "Thr field %s must be an array",
-    'boolean' => "The field %s must be a boolean"
+    'boolean' => "The field %s must be a boolean",
+    'patternMatch' => "The field %s must follow the pattern"
 ];

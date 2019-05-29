@@ -182,4 +182,20 @@ class ValidatorTest extends TestCase
         $validator = $this->makeValidator([]);
         $this->assertFalse($validator->exists('not_defined'));
     }
+
+    public function testPatternMatch()
+    {
+        $validator = $this->makeValidator(['good' => 'hello bar', 'bad' => 'really bad']);
+        $validator->patternMatch('good', '/bar/m');
+        $validator->patternMatch('bad', '/bar/m');
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertFalse($validator->isValid());
+
+        $validator = $this->makeValidator(['good' => 'hello bar lol', 'bad' => 'really bad']);
+        $pattern = '/([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+)/m';
+        $validator->patternMatch('good', $pattern);
+        $validator->patternMatch('bad', $pattern);
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertFalse($validator->isValid());
+    }
 }
