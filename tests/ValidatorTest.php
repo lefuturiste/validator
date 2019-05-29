@@ -198,4 +198,18 @@ class ValidatorTest extends TestCase
         $this->assertCount(1, $validator->getErrors());
         $this->assertFalse($validator->isValid());
     }
+
+    public function testAlphaNumerical()
+    {
+        $validator = $this->makeValidator(['good' => '0HelloWorld1234', 'bad' => '$_helloWorld_$']);
+        $validator->alphaNumerical('good', 'bad');
+        $this->assertFalse($validator->isValid());
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertEquals("Le champs bad doit être composé de caractères alphanumériques", $validator->getErrors()[0]);
+
+        $validator = $this->makeValidator(['good' => 'MayBeItsJustAnotherString', 'another' => '5478Foo123Bared009']);
+        $validator->alphaNumerical('good', 'another');
+        $this->assertTrue($validator->isValid());
+        $this->assertCount(0, $validator->getErrors());
+    }
 }

@@ -337,6 +337,24 @@ class Validator
     }
 
     /**
+     * Verify if a key is alpha numerical
+     *
+     * @param string[] $keys
+     * @return $this
+     */
+    public function alphaNumerical(string ...$keys): self
+    {
+        foreach ($keys as $key) {
+            if (!empty($value = $this->getValue($key))) {
+                if (!ctype_alnum($value)) {
+                    $this->addError($key, 'alphaNumerical');
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Get errors
      *
      * @param bool $withRuleKeys

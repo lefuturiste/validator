@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-ctype": "*"
     },
     "autoload": {
         "psr-4": {

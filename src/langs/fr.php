@@ -16,5 +16,6 @@ return [
 	'betweenStrict' => "Le champs %s doit être compris entre %d and %d",
     'array' => "Le champs %s doit être un tableau",
     'boolean' => "Le champs %s doit être un boolean",
-    'patternMatch' => "Le champs %s doit respecter le pattern"
+    'patternMatch' => "Le champs %s doit respecter le pattern",
+    'alphaNumerical' => "Le champs %s doit être composé de caractères alphanumériques"
 ];
