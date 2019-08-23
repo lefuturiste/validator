@@ -39,6 +39,21 @@ class ValidatorTest extends TestCase
 		$this->assertCount(0, $errors);
 	}
 
+    public function testRequiredAndNotEmpty()
+    {
+        $errors = $this->makeValidator(['name' => 'joe', 'content' => ''])
+            ->requiredAndNotEmpty('name', 'content', 'foo')
+            ->getErrors();
+        $this->assertCount(2, $errors);
+
+        $errors = $this->makeValidator(['foo' => ''])
+            ->requiredAndNotEmpty('foo', 'bar')
+            ->getErrors(true);
+        $this->assertCount(2, $errors);
+        $this->assertArrayHasKey('foo.empty', $errors);
+        $this->assertArrayHasKey('bar.required', $errors);
+    }
+
 	public function testInteger()
     {
         $errors = $this->makeValidator(['int' => 'joe'])

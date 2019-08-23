@@ -9,6 +9,9 @@
             "email": "contact@lefuturiste.fr"
         }
     ],
+    "scripts": {
+        "tests": "vendor/bin/phpunit tests"
+    },
     "require": {
         "ext-mbstring": "*",
         "ext-ctype": "*"

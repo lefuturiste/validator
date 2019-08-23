@@ -55,6 +55,20 @@ class Validator
     }
 
     /**
+     * Verify if many fields exists and are not empty
+     *
+     * @param array ...$keys
+     * @return $this
+     */
+    public function requiredAndNotEmpty(...$keys): self
+    {
+        $this->required(...$keys);
+        $this->notEmpty(...$keys);
+
+        return $this;
+    }
+
+    /**
      * Verify if a field has the expected length
      *
      * @param $key
