@@ -54,7 +54,15 @@ class ValidatorTest extends TestCase
         $this->assertArrayHasKey('bar.required', $errors);
     }
 
-	public function testInteger()
+    public function testIntegerSuccess()
+    {
+        $errors = $this->makeValidator(['int' => 0, 'foo' => 42])
+            ->integer('int', 'foo')
+            ->getErrors();
+        $this->assertCount(0, $errors);
+    }
+
+	public function testIntegerError()
     {
         $errors = $this->makeValidator(['int' => 'joe'])
             ->integer('int', 'random')
@@ -82,15 +90,28 @@ class ValidatorTest extends TestCase
 
     public function testBooleanSuccess()
     {
-        $errors = $this->makeValidator(['foo' => false, 'bar' => 0, 'example' => '0', 'second' => 'true'])
-            ->boolean('foo', 'bar', 'example', 'second')
+        $errors = $this->makeValidator([
+            'lel' => true,
+            'foo' => false,
+            'bar' => 0,
+            'example' => '0',
+            'second' => 'true',
+            'third' => 'false'
+        ])
+            ->boolean('foo', 'bar', 'example', 'second', 'third', 'lel')
             ->getErrors();
         $this->assertCount(0, $errors);
     }
 
     public function testBooleanError()
     {
-        $errors = $this->makeValidator(['foo' => '_false', 'bar' => 5, 'example' => '001', 'second' => 'string'])
+        $errors = $this->makeValidator([
+            'foo' =>
+            '_false',
+            'bar' => 5,
+            'example' => '001',
+            'second' => 'string'
+        ])
             ->boolean('foo', 'bar', 'example', 'second')
             ->getErrors();
         $this->assertCount(4, $errors);
