@@ -48,7 +48,7 @@ class ValidatorTest extends TestCase
 
         $errors = $this->makeValidator(['foo' => ''])
             ->requiredAndNotEmpty('foo', 'bar')
-            ->getErrors(true);
+            ->getErrors(ValidationError::FORMAT_WITH_KEYS);
         $this->assertCount(2, $errors);
         $this->assertArrayHasKey('foo.empty', $errors);
         $this->assertArrayHasKey('bar.required', $errors);
@@ -196,17 +196,30 @@ class ValidatorTest extends TestCase
         $validator->required('foo');
         $this->assertFalse($validator->isValid());
         $this->assertCount(1, $validator->getErrors());
-        $this->assertArrayHasKey('foo.required', $validator->getErrors(true));
+        $this->assertArrayHasKey('foo.required', $validator->getErrors(ValidationError::FORMAT_WITH_KEYS));
     }
 
-    public function testErrorsWithKeysAndGlobalConfig()
+    public function testErrorsWithKeysFormatAndGlobalConfig()
     {
         $validator = $this->makeValidator(['foo' => '']);
-        ValidationError::withKeys();
+        ValidationError::setDefaultFormat(ValidationError::FORMAT_WITH_KEYS);
         $validator->notEmpty('foo');
         $this->assertFalse($validator->isValid());
         $this->assertCount(1, $validator->getErrors());
         $this->assertArrayHasKey('foo.empty', $validator->getErrors());
+    }
+
+    public function testErrorsArrayFormatAndGlobalConfig()
+    {
+        $validator = $this->makeValidator(['foo' => '']);
+        ValidationError::setDefaultFormat(ValidationError::FORMAT_ARRAY);
+        $validator->notEmpty('foo');
+        $this->assertFalse($validator->isValid());
+        $this->assertCount(1, $validator->getErrors());
+        $this->assertContains([
+            'code' => 'foo.empty',
+            'message' => str_replace('%s', 'foo', ValidationLanguage::getMessages()['empty'])
+        ], $validator->getErrors());
     }
 
     public function testValueExists()
@@ -241,7 +254,7 @@ class ValidatorTest extends TestCase
         $validator->alphaNumerical('good', 'bad');
         $this->assertFalse($validator->isValid());
         $this->assertCount(1, $validator->getErrors());
-        $this->assertArrayHasKey("bad.alphaNumerical", $validator->getErrors());
+        $this->assertArrayHasKey("bad.alphaNumerical", $validator->getErrors(ValidationError::FORMAT_WITH_KEYS));
 
         $validator = $this->makeValidator(['good' => 'MayBeItsJustAnotherString', 'another' => '5478Foo123Bared009']);
         $validator->alphaNumerical('good', 'another');

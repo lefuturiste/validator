@@ -371,18 +371,20 @@ class Validator
     /**
      * Get errors
      *
-     * @param bool $withRuleKeys
+     * @param string $format
      * @return ValidationError[]
      */
-    public function getErrors(bool $withRuleKeys = null): array
+    public function getErrors(string $format = null): array
     {
         $errors = [];
-        if ($withRuleKeys == null) {
-            $withRuleKeys = ValidationError::getWithKeys();
+        if ($format == null) {
+            $format = ValidationError::getDefaultFormat();
         }
         foreach ($this->errors as $error) {
-            if ($withRuleKeys) {
+            if ($format === ValidationError::FORMAT_KEYS_WITH_MESSAGES) {
                 $errors[$error->getKey() . '.' . $error->getRule()] = $error->__toString();
+            } else if ($format === ValidationError::FORMAT_ARRAY) {
+                $errors[] = ['code' => $error->getKey() . '.' . $error->getRule(), 'message' => $error->__toString()];
             } else {
                 $errors[] = $error->__toString();
             }

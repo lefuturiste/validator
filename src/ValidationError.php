@@ -4,10 +4,18 @@ namespace Validator;
 
 class ValidationError
 {
-	private $key;
+    /**
+     * @var string
+     */
+    private static $defaultFormat = self::FORMAT_MESSAGES;
+    private $key;
 	private $rule;
 	private $attributes;
-	private static $withKeys = false;
+
+    public const FORMAT_MESSAGES = "messages";
+    public const FORMAT_KEYS_WITH_MESSAGES = "keys_with_messages";
+    public const FORMAT_WITH_KEYS = self::FORMAT_KEYS_WITH_MESSAGES;
+    public const FORMAT_ARRAY = "array";
 
 	public function __construct(string $key, string $rule, $attributes = [])
 	{
@@ -16,14 +24,14 @@ class ValidationError
 		$this->attributes = $attributes;
 	}
 
-    public static function withKeys(): void
+    public static function setDefaultFormat(string $format): void
     {
-        self::$withKeys = true;
+        self::$defaultFormat = $format;
     }
 
-    public static function getWithKeys(): string
+    public static function getDefaultFormat(): string
     {
-        return self::$withKeys;
+        return self::$defaultFormat;
     }
 
     public function __toString(): string
