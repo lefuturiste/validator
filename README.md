@@ -1,5 +1,7 @@
 # Validator
 
+![Continuous integration](https://github.com/lefuturiste/validator/workflows/Continuous%20integration/badge.svg)
+
 Simple php validator for PSR7 request
 
 ## How to use ?
