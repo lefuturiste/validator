@@ -10,7 +10,8 @@
         }
     ],
     "scripts": {
-        "tests": "vendor/bin/phpunit tests"
+        "tests": "vendor/bin/phpunit tests",
+        "test": "vendor/bin/phpunit tests"
     },
     "require": {
         "ext-mbstring": "*",
