@@ -10,6 +10,7 @@ return [
 	'notEqual' => 'The field %s must be equal to %s',
 	'email' => 'The field %s must be a valid email address',
 	'integer' => 'The field %s must be a valid number',
+    'float' => 'The field %s must be a valid float',
 	'url' => 'The field %s must be a valid URL',
 	'match' => 'The field %s must be equal to %s',
 	'between' => "The field %s must be between %d and %d",

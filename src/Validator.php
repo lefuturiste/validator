@@ -274,6 +274,26 @@ class Validator
     }
 
     /**
+     * Verify if a key is a valid float
+     *
+     * @param mixed ...$keys
+     * @return $this
+     */
+    public function float(...$keys): self
+    {
+        foreach ($keys as $key) {
+            $value = $this->getValue($key);
+            $pattern = '/^[0-9]{0,64}+.[0-9]{0,64}$/';
+
+            if (!empty($value) && !is_null($value))
+                if (!preg_match($pattern, strval($value)))
+                    $this->addError($key, 'float');
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify if a key is a valid boolean
      *
      * @param mixed ...$keys
@@ -411,7 +431,6 @@ class Validator
     public function getValue(string $key)
     {
         if (!empty($this->params)) {
-
             if (array_key_exists($key, $this->params))
                 return $this->params[$key];
         }

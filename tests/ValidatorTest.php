@@ -70,6 +70,17 @@ class ValidatorTest extends TestCase
         $this->assertCount(1, $errors);
         $this->assertEquals('Le champs int doit être un nombre valide', $errors[0]);
     }
+    
+    public function testFloat()
+    {
+        $validator = $this->makeValidator(['good' => 25.128, 'bad' => 'str', 'bad2' => 12]);
+        $validator->float('good', 'bad', 'bad2');
+        $this->assertFalse($validator->isValid());
+        $errors = $validator->getErrors(ValidationError::FORMAT_WITH_KEYS);
+        $this->assertCount(2, $errors);
+        $this->assertArrayHasKey('bad.float', $errors);
+        $this->assertArrayHasKey('bad2.float', $errors);
+    }
 
     public function testArraySuccess()
     {
