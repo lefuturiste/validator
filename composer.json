@@ -15,7 +15,8 @@
     },
     "require": {
         "ext-mbstring": "*",
-        "ext-ctype": "*"
+        "ext-ctype": "*",
+        "php": "7.1"
     },
     "autoload": {
         "psr-4": {
