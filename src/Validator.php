@@ -22,10 +22,10 @@ class Validator
     /**
      * Verify if many fields exists
      *
-     * @param array ...$keys
+     * @param array $keys
      * @return $this
      */
-    public function required(...$keys): self
+    public function required(string ...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -39,10 +39,10 @@ class Validator
     /**
      * Verify if many fields are not empty
      *
-     * @param array ...$keys
+     * @param string ...$keys
      * @return $this
      */
-    public function notEmpty(...$keys): self
+    public function notEmpty(string ...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -57,10 +57,10 @@ class Validator
     /**
      * Verify if many fields exists and are not empty
      *
-     * @param array ...$keys
+     * @param string ...$keys
      * @return $this
      */
-    public function requiredAndNotEmpty(...$keys): self
+    public function requiredAndNotEmpty(string...$keys): self
     {
         $this->required(...$keys);
         $this->notEmpty(...$keys);
