@@ -2,6 +2,8 @@
 
 namespace Validator;
 
+use DateTime;
+
 class Validator
 {
     /**
@@ -29,8 +31,9 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value))
+            if (is_null($value)) {
                 $this->addError($key, 'required');
+            }
         }
 
         return $this;
@@ -46,9 +49,11 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (!is_null($value))
-                if (empty($value))
+            if (!is_null($value)) {
+                if (empty($value)) {
                     $this->addError($key, 'empty');
+                }
+            }
         }
 
         return $this;
@@ -82,36 +87,14 @@ class Validator
 
         if (!empty($value)) {
             $length = mb_strlen($value);
-            if (
-                !is_null($min) &&
-                !is_null($max) &&
-                ($length < $min || $length > $max)
-            ) {
-                $this->addError($key, 'betweenLength', [
-                    $min,
-                    $max
-                ]);
-
+            if (!is_null($min) && !is_null($max) && ($length < $min || $length > $max)) {
+                $this->addError($key, 'betweenLength', [$min, $max]);
             }
-
-            if (
-                !is_null($min) &&
-                $length < $min
-            ) {
-                $this->addError($key, 'minLength', [
-                    $min
-                ]);
-
+            if (!is_null($min) && $length < $min) {
+                $this->addError($key, 'minLength', [$min]);
             }
-
-            if (
-                !is_null($max) &&
-                $length > $max
-            ) {
-                $this->addError($key, 'maxLength', [
-                    $max
-                ]);
-
+            if (!is_null($max) && $length > $max) {
+                $this->addError($key, 'maxLength', [$max]);
             }
         }
 
@@ -130,10 +113,11 @@ class Validator
         $value = $this->getValue($key);
 
         if (!empty($value)) {
-            $date = \DateTime::createFromFormat($format, $value);
-            $errors = \DateTime::getLastErrors();
-            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date == false)
+            $date = DateTime::createFromFormat($format, $value);
+            $errors = DateTime::getLastErrors();
+            if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $date == false) {
                 $this->addError($key, 'datetime', [$format]);
+            }
         }
 
         return $this;
@@ -151,9 +135,9 @@ class Validator
 
         if (!empty($value)) {
             $pattern = '/^([a-z0-9]+-?)+$/';
-
-            if (is_null($value) || !preg_match($pattern, $this->params[$key]))
+            if (is_null($value) || !preg_match($pattern, $this->params[$key])) {
                 $this->addError($key, 'slug');
+            }
         }
         return $this;
     }
@@ -170,9 +154,9 @@ class Validator
 
         if (!empty($value)) {
             $pattern = '|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i';
-
-            if (is_null($value) || !preg_match($pattern, $this->params[$key]))
+            if (is_null($value) || !preg_match($pattern, $this->params[$key])) {
                 $this->addError($key, 'url');
+            }
         }
 
         return $this;
@@ -188,11 +172,11 @@ class Validator
     public function match($key, $expected): self
     {
         $value = $this->getValue($key);
-        if (!empty($value) && !empty($expected))
-            if ($value != $expected)
-                $this->addError($key, 'match', [
-                    $expected
-                ]);
+        if (!empty($value) && !empty($expected)) {
+            if ($value != $expected) {
+                $this->addError($key, 'match', [$expected]);
+            }
+        }
 
         return $this;
     }
@@ -208,11 +192,11 @@ class Validator
     {
         $value = $this->getValue($key);
         $value1 = $this->getValue($secondKey);
-        if (!empty($value) && !empty($value1))
-            if ($value != $value1)
-                $this->addError($key, 'notEqual', [
-                    $secondKey
-                ]);
+        if (!empty($value) && !empty($value1)) {
+            if ($value != $value1) {
+                $this->addError($key, 'notEqual', [$secondKey]);
+            }
+        }
 
         return $this;
     }
@@ -227,8 +211,9 @@ class Validator
     {
         $value = $this->getValue($key);
         if (!empty($value)) {
-            if (!filter_var($value, FILTER_VALIDATE_EMAIL))
+            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 $this->addError($key, 'email');
+            }
         }
 
         return $this;
@@ -245,8 +230,9 @@ class Validator
         foreach ($keys as $key) {
             $value = $this->getValue($key);
             if (!empty($value)) {
-                if (!is_array($value))
+                if (!is_array($value)) {
                     $this->addError($key, 'array');
+                }
             }
         }
 
@@ -265,9 +251,11 @@ class Validator
             $value = $this->getValue($key);
             $pattern = '/^([0-9]+-?)+$/';
 
-            if (!empty($value) && !is_null($value))
-                if (!preg_match($pattern, $this->params[$key]))
+            if (!empty($value) && !is_null($value)) {
+                if (!preg_match($pattern, $this->params[$key])) {
                     $this->addError($key, 'integer');
+                }
+            }
         }
 
         return $this;
@@ -430,12 +418,22 @@ class Validator
      */
     public function getValue(string $key)
     {
-        if (!empty($this->params)) {
-            if (array_key_exists($key, $this->params))
-                return $this->params[$key];
+        if (empty($this->params)) {
+            return null;
         }
-
-        return NULL;
+        $keys = array_map(
+            fn($str) => substr($str, -1) === "]" ? substr($str, 0, strlen($str) - 1) : $str,
+            explode('[', $key)
+        );
+        $explored = $this->params;
+        foreach ($keys as $nestedKey) {
+            if (array_key_exists($nestedKey, $explored)) {
+                $explored = $explored[$nestedKey];
+            } else {
+                return null;
+            }
+        }
+        return $explored;
     }
 
     /**
