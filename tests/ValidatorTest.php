@@ -23,6 +23,24 @@ class ValidatorTest extends TestCase
         $this->assertEquals(['Le champs content est requis'], $errors);
     }
 
+    public function testRequiredWithNullField()
+    {
+        $errors = $this->makeValidator(['name' => null])
+            ->required('name', 'content')
+            ->getErrors();
+        $this->assertCount(1, $errors);
+        $this->assertEquals(['Le champs content est requis'], $errors);
+    }
+
+    public function testNotNull()
+    {
+        $errors = $this->makeValidator(['name' => null, 'content' => 'dsqdssd'])
+            ->notNull('name', 'content')
+            ->getErrors();
+        $this->assertCount(1, $errors);
+        $this->assertEquals(['Le champs name ne peut être null'], $errors);
+    }
+
     public function testNotEmpty()
     {
         $errors = $this->makeValidator(['name' => 'joe', 'content' => ''])

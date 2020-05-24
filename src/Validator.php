@@ -23,6 +23,10 @@ class Validator
 
     /**
      * Verify if many fields exists
+     * Note, since version 1.4 a null field is considered as present and thus pass this test.
+     * BREAKING CHANGE:
+     * For version < 1.4 A 'null' field which was, before 1.4 considered as a error is now accepted
+     * For version >= 1.4: a 'null' field is present, to require this field as non null use the notNull() method
      *
      * @param array $keys
      * @return $this
@@ -30,9 +34,28 @@ class Validator
     public function required(string ...$keys): self
     {
         foreach ($keys as $key) {
+            try {
+                $this->getValue($key, true);
+            } catch (\Exception $e) {
+                $this->addError($key, 'required');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Verify if a present field has a non null value
+     *
+     * @param array $keys
+     * @return $this
+     */
+    public function notNull(string ...$keys): self
+    {
+        foreach ($keys as $key) {
             $value = $this->getValue($key);
             if (is_null($value)) {
-                $this->addError($key, 'required');
+                $this->addError($key, 'notNull');
             }
         }
 
@@ -416,13 +439,15 @@ class Validator
      * @param string $key
      * @return mixed|null
      */
-    public function getValue(string $key)
+    public function getValue(string $key, bool $throwExceptionIfNotExists = false)
     {
-        if (empty($this->params)) {
-            return null;
-        }
+        // if (empty($this->params)) {
+        //     return null;
+        // }
         $keys = array_map(
-            fn($str) => substr($str, -1) === "]" ? substr($str, 0, strlen($str) - 1) : $str,
+            function($str) {
+                return substr($str, -1) === "]" ? substr($str, 0, strlen($str) - 1) : $str;
+            },
             explode('[', $key)
         );
         $explored = $this->params;
@@ -430,6 +455,9 @@ class Validator
             if (array_key_exists($nestedKey, $explored)) {
                 $explored = $explored[$nestedKey];
             } else {
+                if ($throwExceptionIfNotExists) {
+                    throw new \Exception("Key not found");
+                }
                 return null;
             }
         }
