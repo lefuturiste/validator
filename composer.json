@@ -16,7 +16,7 @@
     "require": {
         "ext-mbstring": "*",
         "ext-ctype": "*",
-        "php": "^7.1"
+        "php": "^8.0"
     },
     "autoload": {
         "psr-4": {
@@ -24,7 +24,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4",
+        "phpunit/phpunit": "^9.5.1",
         "ext-json": "*"
     }
 }
