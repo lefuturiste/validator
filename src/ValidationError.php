@@ -9,20 +9,20 @@ class ValidationError
      */
     private static $defaultFormat = self::FORMAT_MESSAGES;
     private $key;
-	private $rule;
-	private $attributes;
+    private $rule;
+    private $attributes;
 
     public const FORMAT_MESSAGES = "messages";
     public const FORMAT_KEYS_WITH_MESSAGES = "keys_with_messages";
     public const FORMAT_WITH_KEYS = self::FORMAT_KEYS_WITH_MESSAGES;
     public const FORMAT_ARRAY = "array";
 
-	public function __construct(string $key, string $rule, $attributes = [])
-	{
-		$this->key = $key;
-		$this->rule = $rule;
-		$this->attributes = $attributes;
-	}
+    public function __construct(string $key, string $rule, $attributes = [])
+    {
+        $this->key = $key;
+        $this->rule = $rule;
+        $this->attributes = $attributes;
+    }
 
     public static function setDefaultFormat(string $format): void
     {
@@ -35,16 +35,16 @@ class ValidationError
     }
 
     public function __toString(): string
-	{
-		$params = array_merge([
-			ValidationLanguage::getMessages()[$this->rule],
-			$this->key
-		], $this->attributes);
+    {
+        $params = array_merge([
+            ValidationLanguage::getMessages()[$this->rule],
+            $this->key
+        ], $this->attributes);
 
-		return (string)call_user_func_array('sprintf', $params);
-	}
+        return (string)call_user_func_array('sprintf', $params);
+    }
 
-	public function getRule(): string
+    public function getRule(): string
     {
         return $this->rule;
     }

@@ -402,7 +402,7 @@ class Validator
     /**
      * Get errors
      *
-     * @param string $format
+     * @param string|null $format
      * @return ValidationError[]
      */
     public function getErrors(string $format = null): array
@@ -437,6 +437,7 @@ class Validator
      * Get the value of a given key in the init params
      *
      * @param string $key
+     * @param bool $throwExceptionIfNotExists
      * @return mixed|null
      */
     public function getValue(string $key, bool $throwExceptionIfNotExists = false)
@@ -445,7 +446,7 @@ class Validator
         //     return null;
         // }
         $keys = array_map(
-            function($str) {
+            function ($str) {
                 return substr($str, -1) === "]" ? substr($str, 0, strlen($str) - 1) : $str;
             },
             explode('[', $key)

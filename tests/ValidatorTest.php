@@ -144,12 +144,12 @@ class ValidatorTest extends TestCase
     public function testBooleanSuccess()
     {
         $errors = $this->makeValidator([
-            'lel' => true,
-            'foo' => false,
-            'bar' => 0,
+            'lel'     => true,
+            'foo'     => false,
+            'bar'     => 0,
             'example' => '0',
-            'second' => 'true',
-            'third' => 'false'
+            'second'  => 'true',
+            'third'   => 'false'
         ])
             ->boolean('foo', 'bar', 'example', 'second', 'third', 'lel')
             ->getErrors();
@@ -159,11 +159,11 @@ class ValidatorTest extends TestCase
     public function testBooleanError()
     {
         $errors = $this->makeValidator([
-            'foo' =>
+            'foo'     =>
                 '_false',
-            'bar' => 5,
+            'bar'     => 5,
             'example' => '001',
-            'second' => 'string'
+            'second'  => 'string'
         ])
             ->boolean('foo', 'bar', 'example', 'second')
             ->getErrors();
@@ -181,7 +181,7 @@ class ValidatorTest extends TestCase
     public function testSlugError()
     {
         $errors = $this->makeValidator([
-            'slug' => 'aze-aze-azeAze34',
+            'slug'  => 'aze-aze-azeAze34',
             'slug2' => 'aze-aze_azeAze34',
             'slug3' => 'aze--aze-aze'
         ])
@@ -270,7 +270,7 @@ class ValidatorTest extends TestCase
         $this->assertFalse($validator->isValid());
         $this->assertCount(1, $validator->getErrors());
         $this->assertContains([
-            'code' => 'foo.empty',
+            'code'    => 'foo.empty',
             'message' => str_replace('%s', 'foo', ValidationLanguage::getMessages()['empty'])
         ], $validator->getErrors());
     }
